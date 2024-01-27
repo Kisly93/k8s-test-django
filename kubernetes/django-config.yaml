@@ -5,7 +5,7 @@ metadata:
   labels:
     app: django
 data:
-  SECRET_KEY: your_value
-  DATABASE_URL: your_value
-  DEBUG: your_value
-  ALLOWED_HOSTS: your_value
+  SECRET_KEY: "your_value"
+  DATABASE_URL: "your_value"
+  DEBUG: "your_value"
+  ALLOWED_HOSTS: "your_value"

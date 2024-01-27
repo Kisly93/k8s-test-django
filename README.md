@@ -63,7 +63,74 @@ $ docker compose build web
 
 Аналогичным образом можно удалять библиотеки из зависимостей.
 
-<a name="env-variables"></a>
+## Развёрытвание с помощью Minikube
+Перед началом работы убедитесь что у вас установлены следующие инструменты:
+- [VirtualBox](https://virtualbox.org)
+- [Minikube](https://minikube.sigs.k8s.io)
+- [Kubernetes kubectl](https://kubernetes.io/ru/docs/tasks/tools/install-kubectl/)
+
+### Запускаем кластер Minikube
+Запустите Minikube:
+```shell
+minikube start
+```
+### Настройка и запуск базы данных
+Установите инструмент для управления приложениями Kubernetes [Helm](https://helm.sh/)
+
+Добавьте Helm Chart Repository:
+
+```
+helm repo add bitnami https://charts.bitnami.com/bitnami
+```
+
+В дериктоии проекта создайте файл postgres-value.yaml с конфигурацией базы данных :
+Пример:
+```
+auth:
+  enablePostgresUser: true
+  postgresPassword: {your database password}
+  username: {your username}
+  password: {your user`s password}
+  database: {your database`s name}
+```
+
+Установите PostgreSQL, используя созданный конфигурационный файл:
+
+```
+helm install postgres bitnami/postgresql -f postgres-config.yaml
+```
+
+### Настройка и запуск Django в Kubernetes
+Будем использоваться готовый image с Django. Если вы хотите использовать готовый образ с Django, отредактируйте файл kubernetes/django-service.yml, измените значение image на адрес нужного образа на Docker Hub или созданного локально.
+
+Откройте файл kubernetes/django-config.yaml и укажите нужные значения для Django. В DATABASE_URL укажите данные в формате postgres://username:password@db_host:db_port/database_name, где username, password, database_name - данные из файла postgres-config.yaml, db_host - значение, указанное в команде helm install, db_port - по умолчанию 5432.
+
+Регистрируем конфиг и запускаем Django:
+```shell
+kubectl apply -f kubernetes/django-config.yaml
+```
+```shell
+kubectl apply -f kubernetes/deployment.yaml
+```
+
+Создаём миграции:
+```shell
+kubectl apply -f kubernetes/migrate.yaml
+```
+Создаём службу для очистки устаревших сессий:
+```shell
+kubectl apply -f kubernetes/clearsessions.yaml
+```
+Запускаем Ingress:
+Добавьте выбранный хост(в примере используется star-burger.test) в /etc/hosts(На Linux и macOS, файл hosts обычно находится в /etc/hosts.
+На Windows, файл hosts обычно находится в C:\Windows\System32\Drivers\etc\hosts.). Ip можно узнать с помощью команды minikube ip.
+```shell
+minikube ip
+```
+Выполните команду:
+```shell
+kubectl apply -f kubernetes/ingres.yaml
+```
 ## Переменные окружения
 
 Образ с Django считывает настройки из переменных окружения:
@@ -75,3 +142,4 @@ $ docker compose build web
 `ALLOWED_HOSTS` -- настройка Django со списком разрешённых адресов. Если запрос прилетит на другой адрес, то сайт ответит ошибкой 400. Можно перечислить несколько адресов через запятую, например `127.0.0.1,192.168.0.1,site.test`. [Документация Django](https://docs.djangoproject.com/en/3.2/ref/settings/#allowed-hosts).
 
 `DATABASE_URL` -- адрес для подключения к базе данных PostgreSQL. Другие СУБД сайт не поддерживает. [Формат записи](https://github.com/jacobian/dj-database-url#url-schema).
+

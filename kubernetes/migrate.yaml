@@ -1,0 +1,16 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: migrates
+spec:
+  template:
+    spec:
+      containers:
+      - name: migrate-job
+        image: spsvk/django_app:latest
+        imagePullPolicy: Never
+        command: ["python", "manage.py",  "migrate", "--no-input"]
+        envFrom:
+          - configMapRef:
+              name: django-config
+    restartPolicy: OnFailure
