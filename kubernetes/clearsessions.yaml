@@ -14,5 +14,5 @@ spec:
             command: ["python", "manage.py",  "clearsessions"]
             envFrom:
               - configMapRef:
-                  name: django-config
+                  name: configmap
         restartPolicy: OnFailure
