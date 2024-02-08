@@ -83,7 +83,7 @@ minikube start
 helm repo add bitnami https://charts.bitnami.com/bitnami
 ```
 
-В дериктоии проекта создайте файл postgres-value.yaml с конфигурацией базы данных :
+В директории проекта создайте файл postgres-value.yaml с конфигурацией базы данных :
 Пример:
 ```
 auth:
@@ -105,13 +105,22 @@ helm install postgres bitnami/postgresql -f postgres-config.yaml
 
 Откройте файл kubernetes/django-config.yaml и укажите нужные значения для Django. В DATABASE_URL укажите данные в формате postgres://username:password@db_host:db_port/database_name, где username, password, database_name - данные из файла postgres-config.yaml, db_host - значение, указанное в команде helm install, db_port - по умолчанию 5432.
 
-Регистрируем конфиг и запускаем Django:
+Регистрируем конфиг:
 ```shell
-kubectl apply -f kubernetes/django-config.yaml
+kubectl apply -f kubernetes/configmap.yaml
 ```
+Регистрируем secret файл:
+```shell
+kubectl apply -f kubernetes/django-secret.yaml
+```
+Запускаем Django и сервис:
 ```shell
 kubectl apply -f kubernetes/deployment.yaml
 ```
+```shell
+kubectl apply -f kubernetes/django-service.yaml
+```
+
 
 Создаём миграции:
 ```shell

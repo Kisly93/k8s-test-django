@@ -6,31 +6,21 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: django_app
+      app: django
   template:
     metadata:
       labels:
-        app: django_app
+        app: django
     spec:
       containers:
         - name: django
           image: spsvk/django_app:latest
           envFrom:
             - configMapRef:
-                name: django-config
-          imagePullPolicy: Never
+                name: configmap
+            - secretRef:
+                name: django-secret
+          imagePullPolicy: Always
           ports:
             - containerPort: 80
 
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: django-app
-spec:
-  selector:
-    app: django_app
-  ports:
-    - port: 80
-      targetPort: 80
-  type: NodePort

@@ -12,5 +12,5 @@ spec:
         command: ["python", "manage.py",  "migrate", "--no-input"]
         envFrom:
           - configMapRef:
-              name: django-config
+              name: configmap
     restartPolicy: OnFailure
