@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: django-deployment
+  namespace: edu-trusting-darwin
+  labels:
+    app: django-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: django-app
+  template:
+    metadata:
+      labels:
+        app: django-app
+    spec:
+      containers:
+        - name: django
+          image: spsvk/django_app:latest
+          envFrom:
+            - configMapRef:
+                name: configmap
+          volumeMounts:
+            - mountPath: /root/.postgresql
+              name: psql-cert-volume
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: postgres
+                  key: url
+            - name: SECRET_KEY
+              valueFrom:
+                configMapKeyRef:
+                  name: configmap
+                  key: secret-key
+            - name: DEBUG
+              valueFrom:
+                configMapKeyRef:
+                  name: configmap
+                  key: debug
+            - name: ALLOWED_HOSTS
+              valueFrom:
+                configMapKeyRef:
+                  name: configmap
+                  key: allowed-hosts
+          imagePullPolicy: Always
+      volumes:
+        - name: psql-cert-volume
+          secret:
+            secretName: postgresql-ssl

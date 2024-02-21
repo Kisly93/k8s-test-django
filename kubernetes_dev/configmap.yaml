@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: configmap
+  namespace: edu-trusting-darwin
+  labels:
+    app: django
+data:
+  debug: "FALSE"
+  allowed-hosts: "your host"
+  secret-key: "your secret key"
