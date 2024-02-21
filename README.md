@@ -150,15 +150,15 @@ kubectl apply -f kubernetes/ingres.yaml
 
 ### Деплой кода
 
-#### Загрузка Docker Image на DockerHub
-
-1.Соберите Docker-образ командой:
+#### Загрузка Docker Image на [DockerHub](https://hub.docker.com/)
+1.Зарегистрируйте аккаунт на [DockerHub](https://hub.docker.com/)
+2.Локально соберите Docker-образ командой:
 
 ```
 docker build -t <image-name>:<tag> 
 ```
 
-2.Загрузите образ на DockerHub, предварительно заменив <YOUR-USERNAME> на ваш идентификатор Docker ID:
+3.Загрузите образ на [DockerHub](https://hub.docker.com/), предварительно заменив <YOUR-USERNAME> на ваш идентификатор Docker ID:
 
 ```
 docker tag <image-name>:<tag> YOUR-USERNAME/<image-name>:<tag>
