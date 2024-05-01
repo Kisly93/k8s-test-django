@@ -145,7 +145,7 @@ kubectl apply -f kubernetes/ingres.yaml
 
 Работающая версия сайта находится по адресу: [edu-trusting-darwin.sirius-k8s.dvmn.org](https://edu-trusting-darwin.sirius-k8s.dvmn.org/)
 
-Страничка с выделенными ресурсами: [https://sirius-env-registry.website.yandexcloud.net/edu-trusting-darwin.html](https://sirius-env-registry.website.yandexcloud.net/edu-trusting-darwin.html)
+Страничка с выделенными ресурсами: [sirius-env-registry.website.yandexcloud.net/edu-trusting-darwin.html](https://sirius-env-registry.website.yandexcloud.net/edu-trusting-darwin.html)
 
 ### Установка и подключение к Yandex Cloud (CLI)
 1.Следуйте инструкциям на официальном сайте [Yandex Cloud](https://cloud.yandex.com/en/docs/cli/quickstart), чтобы установить CLI для вашей операционной системы.
