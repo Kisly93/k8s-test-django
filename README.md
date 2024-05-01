@@ -144,6 +144,7 @@ kubectl apply -f kubernetes/ingres.yaml
 ## Настройка и запуск Django в Yandex Cloud
 
 Работающая версия сайта находится по адресу: [edu-trusting-darwin.sirius-k8s.dvmn.org](https://edu-trusting-darwin.sirius-k8s.dvmn.org/)
+
 Страничка с выделенными ресурсами: [https://sirius-env-registry.website.yandexcloud.net/edu-trusting-darwin.html](https://sirius-env-registry.website.yandexcloud.net/edu-trusting-darwin.html)
 
 ### Установка и подключение к Yandex Cloud (CLI)
